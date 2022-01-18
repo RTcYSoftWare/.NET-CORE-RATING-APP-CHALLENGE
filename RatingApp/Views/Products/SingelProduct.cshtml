@@ -1,0 +1,173 @@
+﻿@model SingleProductPageModel
+@{
+    ViewData["Title"] = "SingelProduct";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<section class="section bg-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="product-details">
+                    <h1 class="product-title">@Model.Product.Title</h1>
+                    <div class="product-meta">
+                        <ul class="list-inline">
+                            <li class="list-inline-item"><i class="fa fa-user-o"></i> By <a href="">Andrew</a></li>
+                            <li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Category<a href="">Electronics</a></li>
+                            <li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<a href="">Dhaka Bangladesh</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="product-slider">
+                        <div class="product-slider-item my-4" data-image="/images/products/products-1.jpg">
+                            <img class="img-fluid w-100" src="~/images/products/products-1.jpg" alt="product-img">
+                        </div>
+                        <div class="product-slider-item my-4" data-image="/images/products/products-2.jpg">
+                            <img class="d-block img-fluid w-100" src="~/images/products/products-2.jpg" alt="Second slide">
+                        </div>
+                        <div class="product-slider-item my-4" data-image="/images/products/products-3.jpg">
+                            <img class="d-block img-fluid w-100" src="~/images/products/products-3.jpg" alt="Third slide">
+                        </div>
+                        <div class="product-slider-item my-4" data-image="/images/products/products-1.jpg">
+                            <img class="d-block img-fluid w-100" src="~/images/products/products-1.jpg" alt="Third slide">
+                        </div>
+                        <div class="product-slider-item my-4" data-image="/images/products/products-2.jpg">
+                            <img class="d-block img-fluid w-100" src="~/images/products/products-2.jpg" alt="Third slide">
+                        </div>
+                    </div>
+
+                    <div class="content mt-5 pt-5">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                <h3 class="tab-title">User Ratings</h3>
+                                <table class="table table-bordered product-table">
+                                    <tbody>
+                                        @if (Model.Product.ProductsRatings.Count > 0)
+                                        {
+                                            foreach (var productsRating in Model.Product.ProductsRatings)
+                                            {
+                                                <tr>
+                                                    <td>@productsRating.User.NameSurname</td>
+                                                    <td>@productsRating.User.Email</td>
+                                                    <td>@productsRating.Rating Puan</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="sidebar">
+                    <div class="widget price text-center">
+                        <h4>Product Rating</h4>
+                        @{
+                            int totalRating = 0;
+                            int rating = 0;
+                        }
+                        @foreach (var productsRating in Model.Product.ProductsRatings)
+                        {
+                            totalRating += productsRating.Rating;
+                        }
+                        @{
+                            if (Model.Product.ProductsRatings.Count > 0)
+                            {
+                                rating = totalRating / Model.Product.ProductsRatings.Count;
+                            }
+                        }
+                        <p>@rating <i class="fa fa-star"></i></p>
+                    </div>
+                    <div class="widget rate">
+                        <h5 class="widget-header text-center">
+                            What would you rate
+                            <br>
+                            this product
+                        </h5>
+                        <form asp-route="productRatingAdd" method="post">
+                            <input type="hidden" name="productId" value="@Model.Product.Id" />
+                            <input type="hidden" name="slug" value="@Model.Product.Slug" />
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <label class="container">
+                                        1
+                                        <input value="1" type="radio" checked="checked" name="radio">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                                <li class="list-inline-item">
+                                    <label class="container">
+                                        2
+                                        <input value="2" type="radio" name="radio">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                                <li class="list-inline-item">
+                                    <label class="container">
+                                        3
+                                        <input value="3" type="radio" name="radio">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                                <li class="list-inline-item">
+                                    <label class="container">
+                                        4
+                                        <input value="4" type="radio" name="radio">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                                <li class="list-inline-item">
+                                    <label class="container">
+                                        5
+                                        <input value="5" type="radio" name="radio">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                                <li class="list-inline-item">
+                                    <label class="container">
+                                        6
+                                        <input value="6" type="radio" name="radio">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                                <li class="list-inline-item">
+                                    <label class="container">
+                                        7
+                                        <input value="7" type="radio" name="radio">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                                <li class="list-inline-item">
+                                    <label class="container">
+                                        8
+                                        <input value="8" type="radio" name="radio">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                                <li class="list-inline-item">
+                                    <label class="container">
+                                        9
+                                        <input value="9" type="radio" name="radio">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                                <li class="list-inline-item">
+                                    <label class="container">
+                                        10
+                                        <input value="10" type="radio" name="radio">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                            </ul>
+                            <div class="text-center mt-2">
+                                <input type="submit" class="btn btn-primary" value="Submit Your Rate">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

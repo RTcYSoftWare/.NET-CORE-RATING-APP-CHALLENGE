@@ -1,0 +1,156 @@
+﻿@model HomePageModel
+@{
+    ViewData["Title"] = "Home";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<section class="hero-area bg-1 text-center overly">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="content-block">
+                    <h1>Blogs & Products Rating App</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="popular-deals section bg-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title">
+                    <h2>Trending Blogs</h2>
+                    <p>
+                        Top Rated Blogs
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="trending-ads-slide">
+                    @if (Model.Blogs.Count > 0)
+                    {
+                        foreach (var blog in Model.Blogs)
+                        {
+                            <div class="col-sm-12 col-lg-4">
+                                <div class="product-item bg-light">
+                                    <div class="card">
+                                        <div class="thumb-content">
+                                            <a asp-route="singleBlog" asp-route-slug="@blog.Slug">
+                                                <img class="card-img-top img-fluid" src="images/products/products-2.jpg" alt="Card image cap">
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h4 class="card-title">
+                                                <a asp-route="singleBlog" asp-route-slug="@blog.Slug">@blog.Title</a>
+                                            </h4>
+                                            <ul class="list-inline product-meta">
+                                                <li class="list-inline-item">
+                                                    <a href="single.html"><i class="fa fa-folder-open-o"></i>Furnitures</a>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <a href="#"><i class="fa fa-calendar"></i>26th December</a>
+                                                </li>
+                                            </ul>
+                                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
+                                            <div class="product-ratings">
+                                                @{
+                                                    int totalRating = 0;
+                                                    int rating = 0;
+                                                }
+                                                @foreach (var blogComment in blog.BlogComments)
+                                                {
+                                                    totalRating += blogComment.BlogCommentsRating.Rating;
+                                                }
+                                                @{
+                                                    if (blog.BlogComments.Count > 0)
+                                                    {
+                                                        rating = totalRating / blog.BlogComments.Count;
+                                                    }
+                                                }
+                                                <ul class="list-inline">
+                                                    @for (int i = 0; i <= rating - 1; i++)
+                                                    {
+                                                        <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
+                                                    }
+                                                    @for (int i = 1; i <= 5 - rating; i++)
+                                                    {
+                                                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="popular-deals section bg-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title">
+                    <h2>Trending Products</h2>
+                    <p>
+                        Top Rated Products
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="trending-ads-slide">
+                    @if (Model.Products.Count > 0)
+                    {
+                        foreach (var product in Model.Products)
+                        {
+                            <div class="col-sm-12 col-lg-4">
+                                <div class="product-item bg-light">
+                                    <div class="card">
+                                        <div class="thumb-content">
+                                            <a asp-route="singleBlog" asp-route-slug="@product.Slug">
+                                                <img class="card-img-top img-fluid" src="images/products/products-2.jpg" alt="Card image cap">
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h4 class="card-title">
+                                                <a asp-route="singleProduct" asp-route-slug="@product.Slug">@product.Title</a>
+                                            </h4>
+                                            @{
+                                                int totalRating = 0;
+                                                int rating = 0;
+                                            }
+                                            @foreach (var productsRating in product.ProductsRatings)
+                                            {
+                                                totalRating += productsRating.Rating;
+                                            }
+                                            @{
+                                                if (product.ProductsRatings.Count > 0)
+                                                {
+                                                    rating = totalRating / product.ProductsRatings.Count;
+                                                }
+                                            }
+                                            <p class="card-text">
+                                                Product Rating : @rating
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

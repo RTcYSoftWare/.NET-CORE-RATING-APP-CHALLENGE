@@ -1,0 +1,214 @@
+﻿@model SingleBlogPageModel
+@{
+    ViewData["Title"] = "SingleBlog";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<section class="blog single-blog section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
+                <article class="single-post">
+                    <h3>@Model.Blog.Title</h3>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">by <a href="">Admin</a></li>
+                        <li class="list-inline-item">@Model.Blog.CreatedAt.ToLongDateString()</li>
+                    </ul>
+                    <img src="~/images/blog/post-4.jpg" alt="article-01">
+                    <p>
+                        @Model.Blog.Text
+                    </p>
+
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+
+                    <p>sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+                    <ul class="social-circle-icons list-inline">
+                        <li class="list-inline-item text-center">
+                            Bu Uygulama Rıza Turancan YILMAZ tarafından geliştirilmiştir. İlgili linkler:
+                        </li>
+                        <li class="list-inline-item text-center">
+                            <a class="fa fa-user" href="https://www.kariyer.net/ozgecmis-goruntule/?cvId=dsz%2BaWOjG3PEeCgbs9AedA%3D%3D!e!"></a>
+                        </li>
+                        <li class="list-inline-item text-center">
+                            <a class="fa fa-google-plus" href="mailto:turancanyl@gmail.com"></a>
+                        </li>
+                        <li class="list-inline-item text-center">
+                            <a class="fa fa-github" href="https://github.com/RTcYSoftWare/.NET-CORE-RATING-APP-CHALLENGE"></a>
+                        </li>
+                        <li class="list-inline-item text-center">
+                            <a class="fa fa-linkedin" href="https://www.linkedin.com/in/riza-turancan-yilmaz-5416301a3/"></a>
+                        </li>
+                    </ul>
+                </article>
+                <div class="product-review">
+                    <h3 class="tab-title">Product Review</h3>
+                    @foreach (var blogComment1 in Model.Blog.BlogComments)
+                    {
+                        <div class="media">
+                            <img src="~/images/user/user-thumb.jpg" alt="avater">
+                            <div class="media-body">
+                                <div class="ratings">
+                                    <ul class="list-inline">
+                                        @for (int i = 0; i < blogComment1.BlogCommentsRating.Rating; i++)
+                                        {
+                                            <li class="list-inline-item">
+                                                <i class="fa fa-star"></i>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="name">
+                                    <h5>@blogComment1.User.NameSurname</h5>
+                                </div>
+                                <div class="date">
+                                    <p>@blogComment1.CreatedAt.ToLongDateString()</p>
+                                </div>
+                                <div class="review-comment">
+                                    <p>
+                                        @blogComment1.Text
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="block comment">
+                    <h4>Leave A Comment</h4>
+                    <form action="#">
+                        <div class="rate">
+                            <div class="starrr"></div>
+                        </div>                        
+                        <div class="form-group mb-30">
+                            <label for="message">Message</label>
+                            <textarea id="inp_single_blog_comment_message" class="form-control" rows="8"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">                                
+                                <div class="form-group mb-30">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" id="inp_single_blog_comment_nameSurname">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">                                
+                                <div class="form-group mb-30">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="inp_single_blog_comment_email">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="btn_single_blog_send_comment" data-blogId="@Model.Blog.Id" class="btn btn-transparent">Leave Comment</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+                <div class="sidebar">                   
+                    <div class="widget search p-0">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="expire" placeholder="Search...">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                        </div>
+                    </div>                    
+                    <div class="widget category">                      
+                        <h5 class="widget-header">Categories</h5>
+                        <ul class="category-list">
+                            <li><a href="">Appearel <span class="float-right">(2)</span></a></li>
+                            <li><a href="">Accesories <span class="float-right">(5)</span></a></li>
+                            <li><a href="">Business<span class="float-right">(7)</span></a></li>
+                            <li><a href="">Entertaiment<span class="float-right">(3)</span></a></li>
+                            <li><a href="">Education<span class="float-right">(9)</span></a></li>
+                        </ul>
+                    </div>
+                    <div class="widget rate">
+                        @{
+                            int totalRating = 0;
+                            int rating = 0;
+                        }
+                        @foreach (var blogComment in Model.Blog.BlogComments)
+                        {
+                            totalRating += blogComment.BlogCommentsRating.Rating;
+                        }
+                        @{
+                            if (Model.Blog.BlogComments.Count > 0)
+                            {
+                                rating = totalRating / Model.Blog.BlogComments.Count;
+                            }
+                        }
+                        <h5 class="widget-header text-center">
+                            Blog Rating
+                            <br>
+                            @rating
+                        </h5>
+                        <div class="text-center">
+
+                            @for (int i = 0; i <= rating - 1; i++)
+                            {
+                                <i class="fa fa-star"></i>
+                            }
+                            @for (int i = 1; i <= 5 - rating; i++)
+                            {
+                                <i class="fa-star-o fa"></i>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $("#btn_single_blog_send_comment").click(function () {
+
+            let hata = 0;
+
+            var sendComment = {};
+            sendComment.email = "";
+            sendComment.message = "";
+            sendComment.nameSurname = "";
+            sendComment.rating = 0;
+            sendComment.blogId = 0;
+
+            if ($("#inp_single_blog_comment_email").val() == "") {
+                swal("Eksik Bilgi!", "E Mail Boş Girilmez!", "error");
+                hata++;
+            }
+            else if ($("#inp_single_blog_comment_message").val() == "") {
+                swal("Eksik Bilgi!", "Mesaj Boş Girilemez!", "error");
+                hata++;
+            }
+            else if ($("#inp_single_blog_comment_nameSurname").val() == "") {
+                swal("Eksik Bilgi!", "İsim Soy İsim Boş Girilmez!", "error");
+                hata++;
+            }
+            else if ($(".starrr > .fa-star").length = 0) {
+                swal("Eksik Bilgi!", "Puan Seçmelisiniz!", "error");
+                hata++;
+            }
+            if (hata == 0) {
+
+                sendComment.email = $("#inp_single_blog_comment_email").val();
+                sendComment.message = $("#inp_single_blog_comment_message").val();
+                sendComment.nameSurname = $("#inp_single_blog_comment_nameSurname").val();
+                sendComment.rating = $(".starrr > .fa-star").length;
+                sendComment.blogId = $(this).attr("data-blogId");
+
+                $.ajax({
+                    url: "/blogs/saveblogcomment",
+                    type: "POST",
+                    data: { blogCommentSaveModel: sendComment },
+                    success: function (result) {
+                        if (result == "1") {
+                            swal("Yorumunuz Eklendi!", "Yorumunuz ve Puanınız Eklenmiştir!", "success");
+                        }
+                        else if (result == "-1") {
+                            swal("Kayıt Dışı Kullanıcı!", "Yorum ve Puan Ekleyebilmek İçin Kayıtlı Bir Kullanıcı Olmalısınız.!", "error");
+                        }
+                    }
+                })
+            }
+        });
+    });
+</script>
